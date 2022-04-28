@@ -12,40 +12,40 @@ You will have to prove your wits and worthiness by solving the puzzle each floor
 
 List of all the entities, puzzle pieces and stuff to watch out for in the dungeon.
 
-Entity             | Visual              | Description
--------------------|---------------------|-------------------------
-Lives              | green/blue/red dots | the first few leds show how many lives you have left (not so important when using checkpoints)
-Hero               | green/blue dot      | you
- - Goal            | green/blue          | your goal (not every room has one, always at the end)
- - Sword           | cyan line           | your default attack
- - Shot            | cyan dot            | your special attack (lost on death)
-Item               |                     |     
- - sword/shot      |                     | swap attack type
- - set color green |                     | change your color to green
- - set color blue  |                     | change your color to blue
- - invert control  |                     | invert control
- - extra life      |                     | +1 live (capped at MAX_LIVES)
--------------------|---------------------|-------------------------
-Monster            | red dot             | move back and forth, (do not touch!)
- - Spawner         | none                | spawns new monsters
-Worm               | moving red line     | a bit smarter than normal monsters
-Boss               | red line            | has multiple lives and spawns monsters
--------------------|---------------------|-------------------------
-Button             | white/gray line     | [^0] with a timed behaviour
-Door               | white line          | enter another room on the same floor
-Fog                | pink line           | hides anything underneath it
-ForceField         | blue/green flicker  | you can only pass through if you have matching colors
-Lava               | orange flicker      | save to cross when it does not flicker
-Mine               | yellow dot          | explodes (do not touch!)
-Portal             | orange/blue line    | the cake is a lie!
-Switch             | white/gray line     | [^0] with a back and forth behaviour
-Wall               | white line          | blockade
-Water              | moving blue dots    | the current drags you along with it
+Entity               | Visual              | Description
+---------------------|---------------------|---------------------
+Lives                | green/blue/red dots | the first few leds show how many lives you have left (not so important when using checkpoints)
+Hero                 | green/blue dot      | you
+ \- Goal             | green/blue          | your goal (not every room has one, always at the end)
+ \- Sword            | cyan line           | your default attack
+ \- Shot             | cyan dot            | your special attack (lost on death)
+Item                 |                     |     
+ \- sword/shot       |                     | swap attack type
+ \- set color green  |                     | change your color to green
+ \- set color blue   |                     | change your color to blue
+ \- invert control   |                     | invert control
+ \- extra life       |                     | +1 live (capped at MAX_LIVES)
+---------------------|---------------------|---------------------
+Monster              | red dot             | move back and forth, (do not touch!)
+ \- Spawner          | none                | spawns new monsters
+Worm                 | moving red line     | a bit smarter than normal monsters
+Boss                 | red line            | has multiple lives and spawns monsters
+---------------------|---------------------|---------------------
+Button               | white/gray line     | [^0] with a timed behaviour
+Door                 | white line          | enter another room on the same floor
+Fog                  | pink line           | hides anything underneath it
+ForceField           | blue/green flicker  | you can only pass through if you have matching colors
+Lava                 | orange flicker      | save to cross when it does not flicker
+Mine                 | yellow dot          | explodes (do not touch!)
+Portal               | orange/blue line    | the cake is a lie!
+Switch               | white/gray line     | [^0] with a back and forth behaviour
+Wall                 | white line          | blockade
+Water                | moving blue dots    | the current drags you along with it
 
-[^0] Brightest Dungeon employs a masking system to change parts of the active room.
-Loading a room loads EVERY entity within it.
-However, each entity has a mask that determines whether it is visible, updated and part of collisions.
-Moving over a button or pressing a switch changes which entities are masked (though some are always there).
+[^0]: Brightest Dungeon employs a masking system to change parts of the active room.
+      Loading a room loads EVERY entity within it.
+      However, each entity has a mask that determines whether it is visible, updated and part of collisions.
+      Moving over a button or pressing a switch changes which entities are masked (though some are always there).
 
 ## Getting it up and running
 
@@ -62,6 +62,7 @@ The code to transmit the LED data was written so it works for 16MHz.
 The game works on the smaller version of the Atmega328P, the Atmega168P, as well.
 However, some settings must be disabled/reduced, because the Atmega168P doesn't have enough sram and progmem required for those features.
 In src/Settings.h set ...
+```
 //#define USE_MPU6050_CONTROLLER
 #define LED_STRIP_COUNT 300
 #define LED_STATUS_COUNT 0
@@ -71,6 +72,7 @@ In src/Settings.h set ...
 #define ENABLE_FILE_LOADER false
 #define USE_EEPROM false
 #define ENABLE_LOGGING false
+```
 ... and the program code should turn out to fit onto the Atmega168P together with a small bootloader.
 
 ### WS2812B
@@ -81,7 +83,9 @@ Increasing UPDATE_TIME in src/Settings.h will allow for more LEDs.
 By default, the minimum number of LEDs is 100, as the level layout suffers from too few pixels.
 Both, LED_MIN_COUNT and LED_STRIP_COUNT can be changed in src/Settings.h .
 Some LED strips are terrible with regards to color correctness. 
+```
 #define COLOR_PALETTE 1
+```
 switches to a second color palette that ensures the different entities are still distinguishable (but the game will look worse).
 
 ### Simple Controller
@@ -108,25 +112,25 @@ One button for entering the in game options menu.
 
 Most of the pins have been hardcoded (but the assembler code can of course be changed).
 The default values are:
-Usage             | Pin
-------------------|---------------
-Simple Controller |
- - Potentiometer  | A5
- - Attack Button  | D2
-MPU6050           |
- - SCL            | A5
- - SDA            | A4
- - Attack Button  | D2
-LED               |
- - Data           | D8
-Sound             |
- - Passive Buzzer | D9, D10
-Options           | D3
-SD Card           | (many sdcard modules use 3.3V)
- - MOSI           | D11
- - MISO           | D12
- - CLK            | D13
- - CS             | D4
+Usage              | Pin
+-------------------|---------------
+Simple Controller  |
+ \- Potentiometer  | A5
+ \- Attack Button  | D2
+MPU6050            |
+ \- SCL            | A5
+ \- SDA            | A4
+ \- Attack Button  | D2
+LED                |
+ \- Data           | D8
+Sound              |
+ \- Passive Buzzer | D9, D10
+Options            | D3
+SD Card            | (many sdcard modules use 3.3V)
+ \- MOSI           | D11
+ \- MISO           | D12
+ \- CLK            | D13
+ \- CS             | D4
 
 Connecting Ground and Vcc is all that is left.
 
@@ -230,8 +234,8 @@ WW   | write changes to eeprom
 GG   | ---
 Goal | exit options (keep changes until the next restart)
 
-[^1] select one of 16 dungeons (0: internal, 1-15: sdcard);
-     when opening the options, this will show the currently selected dungeon
-[^2] select a floor from this dungeon and start from there (skip the previous floors);
-     when checkpoints are disabled, this floor serves as a start point after loosing all lives;
-     when opening the options, this will show the currently selected floor
+[^1]: select one of 16 dungeons (0: internal, 1-15: sdcard);
+      when opening the options, this will show the currently selected dungeon
+[^2]: select a floor from this dungeon and start from there (skip the previous floors);
+      when checkpoints are disabled, this floor serves as a start point after loosing all lives;
+      when opening the options, this will show the currently selected floor

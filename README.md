@@ -53,14 +53,14 @@ Here is a list of the different hardware elements required to run the game.
 
 ### Atmega328P (16MHz)
 
-The game was originally developed for the Atmega328P, using it will not require any changes to the code base and all features
-can be used. The Atmega328P must be clocked at 16MHz, because the LEDs used (WS2811) use a protocol depending on the correct
-timing. The code to transmit the LED data was written so it works for 16MHz.
+The game was originally developed for the Atmega328P, using it will not require any changes to the code base and all features can be used.
+The Atmega328P must be clocked at 16MHz, because the LEDs used (WS2811) use a protocol depending on the correct timing.
+The code to transmit the LED data was written so it works for 16MHz.
 
 ### Atmega168P (16MHz)
 
-The game works on the smaller version of the Atmega328P, the Atmega168P, as well. However, some settings must be
-disabled/reduced, because the Atmega168P doesn't have enough sram and progmem required for those features.
+The game works on the smaller version of the Atmega328P, the Atmega168P, as well.
+However, some settings must be disabled/reduced, because the Atmega168P doesn't have enough sram and progmem required for those features.
 In src/Settings.h set ...
 //#define USE_MPU6050_CONTROLLER
 #define LED_STRIP_COUNT 300
@@ -76,9 +76,8 @@ In src/Settings.h set ...
 ### WS2812B
 
 To save SRAM (and PROGMEM), the LED control code has been written in Assembler and is only compatible with WS2811 LEDs (and WS2812).
-While the code is capable of addressing up to 2^16 LEDs, the MCU reaches its limit at around 500 of them, beyond of which
-it is not capable of delivering 50 refreshes per second. Increasing UPDATE_TIME in src/Settings.h will allow for more
-LEDs.
+While the code is capable of addressing up to 2^16 LEDs, the MCU reaches its limit at around 500 of them, beyond of which it is not capable of delivering 50 refreshes per second.
+Increasing UPDATE_TIME in src/Settings.h will allow for more LEDs.
 By default, the minimum number of LEDs is 100, as the level layout suffers from too few pixels.
 Both, LED_MIN_COUNT and LED_STRIP_COUNT can be changed in src/Settings.h .
 Some LED strips are terrible with regards to color correctness. 
@@ -122,7 +121,6 @@ LED               |
  - Data           | D8
 Sound             |
  - Passive Buzzer | D9, D10
-Random            | A1 (to make random numbers more random)
 Options           | D3
 SD Card           | (many sdcard modules use 3.3V)
  - MOSI           | D11

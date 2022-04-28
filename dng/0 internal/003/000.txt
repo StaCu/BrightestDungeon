@@ -1,0 +1,17 @@
+## MAX LINE LENGTH #############################################
+HERO       (0,0)
+MONSTER    (0,40,0)
+MONSTER    (0,50,-8)
+MONSTER    (0,60,8)
+MONSTER    (0,70,0)
+MONSTER    (0,80,-8)
+MONSTER    (0,90,8)
+WORM       (0,110,-8)
+WORM       (0,120,8)
+MONSTER    (0,140,0)
+MONSTER    (0,150,-8)
+MONSTER    (0,160,8)
+SPAWNER    (0, 0, 80, 250, -4)
+SPAWNER    (0, 10, 80, 250, -8)
+NEXT
+## MAX LINE LENGTH #############################################

@@ -1,0 +1,10 @@
+## MAX LINE LENGTH #############################################
+HERO       (0,0)
+ITEM       (0,50,1)
+FORCEFIELD (0,100,1)
+MONSTER    (0,125,0)
+ITEM       (0,150,0)
+FORCEFIELD (0,200,0)
+MONSTER    (0,225,0)
+NEXT
+## MAX LINE LENGTH #############################################

@@ -1,0 +1,19 @@
+## MAX LINE LENGTH #############################################
+# previous version of internal floor 27
+HERO       (0, 0)
+BUTTON     (0, 10, 0b00010001, 0, 30)
+PORTAL     (0b00010000, 20, 225)
+PORTAL     (0b00000001, 20, 100)
+DOOR       (0, 30, 3, 30)
+WALL       (0, 50, 6)
+DOOR       (0b00010000, 60, 1, 60)
+DOOR       (0b00000001, 60, 2, 60)
+FORCEFIELD (0, 120, 1)
+PORTAL     (0b00000001, 160, 225)
+FORCEFIELD (0, 200, 1)
+DOOR       (0b00010000, 210, 1, 210)
+DOOR       (0b00000001, 210, 2, 210)
+FORCEFIELD (0, 235, 0)
+ITEM       (0, 242, 4)
+NEXT
+## MAX LINE LENGTH #############################################

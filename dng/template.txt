@@ -1,0 +1,24 @@
+## MAX LINE LENGTH #############################################
+RESET      (mask)
+HERO       (mask, pos)
+ITEM       (mask, pos, type)
+
+BOSS       (mask, pos, pos, pos)
+MONSTER    (mask, pos, speed)
+WORM       (mask, pos, speed)
+SPAWNER    (mask, time, time, pos, speed)
+
+BUTTON     (mask, pos, op, time, time)
+DOOR       (mask, pos, room, pos)
+FOG        (mask, pos, size, speed)
+FORCEFIELD (mask, pos, color)
+LAVA       (mask, pos, size, time, time)
+MINE       (mask, pos)
+PORTAL     (mask, pos, pos)
+SWITCH     (mask, pos, op)
+WALL       (mask, pos, size)
+WATER      (mask, pos, size, speed)
+
+END
+NEXT
+## MAX LINE LENGTH #############################################

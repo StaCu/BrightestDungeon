@@ -81,8 +81,8 @@ void Panel::show() {
     leds.show((WS2811::Color*) &Palette::palette, indices.getDataPtr(), 5, Options::led_count);
 
 #ifdef SIMULATOR
-    uint8_t colors[]     = {  0, 37, 94, 36, 36, 33, 33, 33, 33, 34, 94, 37, 37, 37, 36, 36, 32, 34, 37, 90, 31, 31, 91, 36, 32, 34};
-    uint8_t characters[] = {' ','X','=','-','-','=','L','-','=','-','=','s','S','D','#','-','-','-','W','w','M','M','F','A','H','H'};
+    uint8_t colors[]     = {  0, 37, 94, 36, 36, 33, 33, 33, 33, 34, 94, 37, 37, 37, 36, 36, 32, 34, 90, 37, 31, 31, 91, 36, 32, 34};
+    uint8_t characters[] = {' ','X','=','-','-','=','L','-','=','-','=','s','S','D','#','-','-','-','w','W','M','M','F','A','H','H'};
 
     std::string leds = "[";
     for (uint64_t i = 0; i < Options::led_count; i++) {

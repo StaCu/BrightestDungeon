@@ -340,18 +340,18 @@ void Options::draw() {
     uint16_t pos  = 0;
 
     for (uint8_t i = 0; i <= OptionsMain::SPACER5; i++, pos += size + 1) {
-        uint8_t color = COLOR_DOOR;
+        uint8_t color = COLOR_WALL_1;
         if (i >= OptionsMain::DUNGEON0 && i <= OptionsMain::DUNGEON3 && !(Options::tmp_dungeon & (1<<(i-OptionsMain::DUNGEON0)))) {
-            color = COLOR_WALL_1;
+            color = COLOR_WALL_0;
         }
         if (i >= OptionsMain::FLOOR0 && i <= OptionsMain::FLOOR7 && !(Options::tmp_floor & (1<<(i-OptionsMain::FLOOR0)))) {
-            color = COLOR_WALL_1;
+            color = COLOR_WALL_0;
         }
         if (i == OptionsMain::CHECKPOINTS && !Options::checkpoints) {
-            color = COLOR_WALL_1;
+            color = COLOR_WALL_0;
         }
         if (i == OptionsMain::CONTROLLER_DIRECTION && !Options::controler_direction) {
-            color = COLOR_WALL_1;
+            color = COLOR_WALL_0;
         }
         if (i == OptionsMain::SPACER0 || i == OptionsMain::SPACER1 || i == OptionsMain::SPACER2 || 
             i == OptionsMain::SPACER3 || i == OptionsMain::SPACER4 || i == OptionsMain::SPACER5) {

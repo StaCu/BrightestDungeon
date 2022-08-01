@@ -17,7 +17,7 @@ public:
     static uint8_t brightness;
     static uint8_t volume;
 
-    static bool controler_direction;
+    static uint8_t controler_direction;
     static uint8_t joystick_min;
     static uint8_t joystick_mid;
     static uint8_t joystick_max;

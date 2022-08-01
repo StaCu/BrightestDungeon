@@ -30,7 +30,7 @@ int16_t Options::led_count;
 uint8_t Options::brightness;
 uint8_t Options::volume;
 
-bool Options::controler_direction;
+uint8_t Options::controler_direction;
 uint8_t Options::joystick_min;
 uint8_t Options::joystick_mid;
 uint8_t Options::joystick_max;
@@ -82,16 +82,6 @@ void Options::read() {
     LOG((int)Options::joystick_mid);
     LOG(" ");
     LOG_LN((int)Options::joystick_max);
-
-    if (dungeon    > 15)                                               dungeon    = DEFAULT_DUNGEON;
-    if (led_count  < LED_MIN_COUNT || LED_MAX_COUNT      < led_count)  led_count  = DEFAULT_LED_COUNT;
-    if (brightness < 0             || LED_MAX_BRIGHTNESS < brightness) brightness = DEFAULT_BRIGHTNESS;
-    if (volume     < 0             || SOUND_MAX_VOLUME   < volume)     volume     = DEFAULT_VOLUME;
-    if (joystick_min == joystick_mid || joystick_mid == joystick_max) {
-        joystick_min = DEFAULT_JOYSTICK_MIN;
-        joystick_mid = DEFAULT_JOYSTICK_MID;
-        joystick_max = DEFAULT_JOYSTICK_MAX;
-    }
     #endif
 
     if (initiated != DEFAULT_TESTVALUE) {
@@ -107,6 +97,20 @@ void Options::read() {
         joystick_min = DEFAULT_JOYSTICK_MIN;
         joystick_mid = DEFAULT_JOYSTICK_MID;
         joystick_max = DEFAULT_JOYSTICK_MAX;
+    }
+
+    // sanitize settings
+    if (dungeon    > 15)                                               dungeon    = DEFAULT_DUNGEON;
+    if (led_count  < LED_MIN_COUNT || LED_MAX_COUNT      < led_count)  led_count  = DEFAULT_LED_COUNT;
+    if (brightness < 0             || LED_MAX_BRIGHTNESS < brightness) brightness = DEFAULT_BRIGHTNESS;
+    if (volume     < 0             || SOUND_MAX_VOLUME   < volume)     volume     = DEFAULT_VOLUME;
+    if (joystick_min == joystick_mid || joystick_mid == joystick_max) {
+        joystick_min = DEFAULT_JOYSTICK_MIN;
+        joystick_mid = DEFAULT_JOYSTICK_MID;
+        joystick_max = DEFAULT_JOYSTICK_MAX;
+    }
+    if (Options::controler_direction) {
+        Options::controler_direction = true;
     }
 
     Options::updateLevelLength();
@@ -251,7 +255,7 @@ void Options::update() {
         }
     }
     if (selection == OptionsMain::CONTROLLER_DIRECTION) {
-        Options::controler_direction = !Options::controler_direction;
+	    Options::controler_direction = !Options::controler_direction;
     }
     // ---
     if (selection == OptionsMain::DECR_LED_COUNT) {
@@ -340,19 +344,20 @@ void Options::draw() {
     uint16_t pos  = 0;
 
     for (uint8_t i = 0; i <= OptionsMain::SPACER5; i++, pos += size + 1) {
+
         uint8_t color = COLOR_WALL_1;
         if (i >= OptionsMain::DUNGEON0 && i <= OptionsMain::DUNGEON3 && !(Options::tmp_dungeon & (1<<(i-OptionsMain::DUNGEON0)))) {
             color = COLOR_WALL_0;
-        }
+        } else
         if (i >= OptionsMain::FLOOR0 && i <= OptionsMain::FLOOR7 && !(Options::tmp_floor & (1<<(i-OptionsMain::FLOOR0)))) {
             color = COLOR_WALL_0;
-        }
+        } else
         if (i == OptionsMain::CHECKPOINTS && !Options::checkpoints) {
             color = COLOR_WALL_0;
-        }
+        } else
         if (i == OptionsMain::CONTROLLER_DIRECTION && !Options::controler_direction) {
             color = COLOR_WALL_0;
-        }
+        } else
         if (i == OptionsMain::SPACER0 || i == OptionsMain::SPACER1 || i == OptionsMain::SPACER2 || 
             i == OptionsMain::SPACER3 || i == OptionsMain::SPACER4 || i == OptionsMain::SPACER5) {
             color = COLOR_ITEM_COLOR_0;

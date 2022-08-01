@@ -161,7 +161,12 @@ make dungeon
 ./dungeon ../
 ```
 
-The ncurses library is a prerequisite (preinstalled on most linux distibutions).
+The ncurses library is a prerequisite.
+It is preinstalled on most linux distibutions, or can be installed using:
+```
+sudo apt install libncurses-dev
+```
+
 You can play using A (left), D (right), S (attack), E (options), Q (quit).
 However, this meant to be more for debugging and creating new levels rather than actually playing BrightestDungeon.
 

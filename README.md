@@ -175,12 +175,7 @@ However, this meant to be more for debugging and creating new levels rather than
 To generate a secret morse code that can be integrated into the game write the text to secret/main.cpp and run:
 
 ```
-mkdir build
-cd build/
-cmake .. 
-make secret
-./secret
-mv Secret.h ../src/Secret.h
+python3 secret.py
 ```
 
 ###

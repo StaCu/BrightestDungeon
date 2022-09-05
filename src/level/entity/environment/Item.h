@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../../../Settings.h"
 #include "../Entity.h"
 
 class Hero;

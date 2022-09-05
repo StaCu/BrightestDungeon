@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../LongEntity.h"
-#include "../../../peripheral/Timer.h"
+#include "../../../util/Timer.h"
 
 class __attribute__ ((packed)) Lava : public LongEntity {
 

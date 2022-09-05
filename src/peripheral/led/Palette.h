@@ -1,8 +1,6 @@
 #pragma once
 
-#include <stdint.h>
-#include "../../Settings.h"
-#include "WS2811.h"
+#include <Platform.h>
 
 enum Color : uint8_t {
   COLOR_OFF,
@@ -65,7 +63,7 @@ public:
   /**
    * color palette
    */
-  static WS2811::Color palette[];
+  static uint8_t palette[];
 
   static void updateBrightness();
 

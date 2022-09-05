@@ -1,8 +1,6 @@
 #pragma once
 
-#include <stdint.h>
-
-#include "../../Settings.h"
+#include <Platform.h>
 
 class FileLoader {
 

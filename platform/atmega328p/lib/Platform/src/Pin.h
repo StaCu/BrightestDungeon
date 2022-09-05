@@ -1,11 +1,16 @@
 #pragma once
 
-#include "../Settings.h"
+#if defined(ARDUINO) && ARDUINO >= 100
+    #include <Arduino.h>
+#else
+    #include <WProgram.h>
+#endif
+
 #include <stdint.h>
 
-#define PORTB 0x25
-#define PORTC 0x28
-#define PORTD 0x2b
+#define AVR_PORTB 0x25
+#define AVR_PORTC 0x28
+#define AVR_PORTD 0x2b
 
 class Pin {
 
@@ -32,51 +37,7 @@ public:
   static uint16_t __attribute__((noinline)) readAnalog(uint8_t pin);
   
 };
-#ifdef SIMULATOR
 
-template<uint8_t PORT, uint8_t PIN>
-void Pin::setModeDigitalRead() {
-  // Set the Data Direction of the pin to 0
-  // => the DataDirectionRegister is located at PORT-Address - 1
-}
-
-template<uint8_t PORT, uint8_t PIN>
-void Pin::setModeDigitalWrite() {
-  // Set the Data Direction of the pin to 1
-  // => the DataDirectionRegister is located at PORT-Address - 1
-}
-
-template<uint8_t PORT, uint8_t PIN>
-bool Pin::read() {
-  if (PIN == 2) {
-    return Simulator::getButton() != 's';
-  }
-  if (PIN == 3) {
-    return Simulator::getButton() != 'e';
-  }
-  return false;
-}
-
-template<uint8_t PORT, uint8_t PIN>
-void Pin::write(const bool &value) {
-  // write the Port value of the pin
-  // => the PortRegister is located at PORT-Address
-  volatile uint8_t output = value; //LOW or HIGH
-}
-
-template<uint8_t PORT, uint8_t PIN>
-void Pin::writeHigh() {
-  // write the Port value of the pin
-  // => the PortRegister is located at PORT-Address
-}
-
-template<uint8_t PORT, uint8_t PIN>
-void Pin::writeLow() {
-  // write the Port value of the pin
-  // => the PortRegister is located at PORT-Address
-}
-
-#else
 template<uint8_t PORT, uint8_t PIN>
 void Pin::setModeDigitalRead() {
   // Set the Data Direction of the pin to 0
@@ -157,4 +118,3 @@ void Pin::writeLow() {
     :
   );
 }
-#endif

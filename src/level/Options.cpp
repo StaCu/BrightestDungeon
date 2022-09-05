@@ -1,22 +1,15 @@
 #include "Options.h"
 
-#include "../Settings.h"
+#include <Platform.h>
 
 #include "Floor.h"
 #include "Pool.h"
 
 #include "../peripheral/led/Panel.h"
 #include "../peripheral/controller/Controller.h"
-#include "../peripheral/Pin.h"
 
 #include "entity/hero/Hero.h"
 #include "entity/environment/Door.h"
-
-#ifndef SIMULATOR
-#if USE_EEPROM
-#include <EEPROM.h>
-#endif
-#endif
 
 // # ================================================================ #
 // # ::  OPTIONS                                                   :: #
@@ -30,10 +23,7 @@ int16_t Options::led_count;
 uint8_t Options::brightness;
 uint8_t Options::volume;
 
-uint8_t Options::controler_direction;
-uint8_t Options::joystick_min;
-uint8_t Options::joystick_mid;
-uint8_t Options::joystick_max;
+uint8_t Options::controller_direction;
 
 bool Options::swap_color;
 int16_t Options::level_length;
@@ -42,23 +32,40 @@ int8_t Options::size_large;
 int8_t Options::size_medium;
 int8_t Options::size_small;
 
+void Options::init() {
+    #if ENABLE_RUNTIME_SETTINGS
+    settings_init();
+    #endif
+    Options::read();
+}
+
+struct RuntimeSettings {
+    uint8_t initiated;
+    uint8_t dungeon;
+    uint8_t start_floor;
+    bool checkpoints;
+
+    int16_t led_count;
+    uint8_t brightness;
+    uint8_t volume;
+
+    uint8_t controller_direction;
+};
+
 void Options::read() {
     uint8_t initiated = DEFAULT_TESTVALUE+1;
-    #if USE_EEPROM
-    EEPROM.get(0, initiated);
-
-    EEPROM.get(1, dungeon);
-    EEPROM.get(2, start_floor);
-    EEPROM.get(3, checkpoints);
-
-    EEPROM.get(4, led_count);
-    EEPROM.get(6, brightness);
-    EEPROM.get(7, volume);
-
-    EEPROM.get(8, controler_direction);
-    EEPROM.get(9, joystick_min);
-    EEPROM.get(10, joystick_mid);
-    EEPROM.get(11, joystick_max);
+    #if ENABLE_RUNTIME_SETTINGS
+    RuntimeSettings settings;
+    settings_read(&settings, sizeof(RuntimeSettings));
+    settings_read_platform_specific(sizeof(RuntimeSettings));
+    initiated            = settings.initiated;
+    dungeon              = settings.dungeon;
+    start_floor          = settings.start_floor;
+    checkpoints          = settings.checkpoints;
+    led_count            = settings.led_count;
+    brightness           = settings.brightness;
+    volume               = settings.volume;
+    controller_direction = settings.controller_direction;
 
     LOG("eeprom: ");
     LOG((int)initiated);
@@ -75,13 +82,7 @@ void Options::read() {
     LOG(" ");
     LOG((int)Options::volume);
     LOG("|");
-    LOG((int)Options::controler_direction);
-    LOG(" ");
-    LOG((int)Options::joystick_min);
-    LOG(" ");
-    LOG((int)Options::joystick_mid);
-    LOG(" ");
-    LOG_LN((int)Options::joystick_max);
+    LOG_LN((int)Options::controller_direction);
     #endif
 
     if (initiated != DEFAULT_TESTVALUE) {
@@ -93,10 +94,8 @@ void Options::read() {
         brightness   = DEFAULT_BRIGHTNESS;
         volume       = DEFAULT_VOLUME;
         
-        controler_direction = DEFAULT_DIRECTION;
-        joystick_min = DEFAULT_JOYSTICK_MIN;
-        joystick_mid = DEFAULT_JOYSTICK_MID;
-        joystick_max = DEFAULT_JOYSTICK_MAX;
+        controller_direction = DEFAULT_DIRECTION;
+        settings_default();
     }
 
     // sanitize settings
@@ -104,14 +103,10 @@ void Options::read() {
     if (led_count  < LED_MIN_COUNT || LED_MAX_COUNT      < led_count)  led_count  = DEFAULT_LED_COUNT;
     if (brightness < 0             || LED_MAX_BRIGHTNESS < brightness) brightness = DEFAULT_BRIGHTNESS;
     if (volume     < 0             || SOUND_MAX_VOLUME   < volume)     volume     = DEFAULT_VOLUME;
-    if (joystick_min == joystick_mid || joystick_mid == joystick_max) {
-        joystick_min = DEFAULT_JOYSTICK_MIN;
-        joystick_mid = DEFAULT_JOYSTICK_MID;
-        joystick_max = DEFAULT_JOYSTICK_MAX;
+    if (Options::controller_direction) {
+        Options::controller_direction = true;
     }
-    if (Options::controler_direction) {
-        Options::controler_direction = true;
-    }
+    settings_check();
 
     Options::updateLevelLength();
     Palette::updateBrightness();
@@ -122,20 +117,18 @@ void Options::write() {
     dungeon     = tmp_dungeon;
     Floor::idx  = tmp_floor;
     start_floor = tmp_floor;
-    #if USE_EEPROM
-    EEPROM.put(0, DEFAULT_TESTVALUE);
-    EEPROM.put(1, dungeon);
-    EEPROM.put(2, start_floor);
-    EEPROM.put(3, checkpoints);
-
-    EEPROM.put(4, led_count);
-    EEPROM.put(6, brightness);
-    EEPROM.put(7, volume);
-
-    EEPROM.put(8, controler_direction);
-    EEPROM.put(9, joystick_min);
-    EEPROM.put(10, joystick_mid);
-    EEPROM.put(11, joystick_max);
+    #if ENABLE_RUNTIME_SETTINGS
+    RuntimeSettings settings;
+    settings.initiated            = DEFAULT_TESTVALUE;
+    settings.dungeon              = dungeon;
+    settings.start_floor          = start_floor;
+    settings.checkpoints          = checkpoints;
+    settings.led_count            = led_count;
+    settings.brightness           = brightness;
+    settings.volume               = volume;
+    settings.controller_direction = controller_direction;
+    settings_write(&settings, sizeof(RuntimeSettings));
+    settings_write_platform_specific(sizeof(RuntimeSettings));
     #endif
 }
 
@@ -149,18 +142,6 @@ void Options::updateLevelLength() {
   Options::size_large   = scalePosition(16);
   Options::size_medium  = scalePosition(6);
   Options::size_small   = scalePosition(4);
-}
-
-uint16_t Options::getRandom() {
-    #ifdef SIMULATOR
-    return rand();
-    #else
-    return random();
-    #endif
-}
-
-uint16_t Options::getRandom(uint16_t x) {
-    return getRandom() % x;
 }
 
 // # ================================================================ #
@@ -244,18 +225,10 @@ void Options::update() {
 
     uint8_t selection = getSelection();
     if (selection == OptionsMain::CALLIBRATE) {
-        uint16_t start = millis();
-        Options::joystick_min = 255;
-        Options::joystick_max = 0;
-        while (millis() - start < 2000) {
-            #ifdef SIMULATOR
-            Simulator::update();
-            #endif
-            Controller::callibrate();
-        }
+        Controller::callibrate();
     }
     if (selection == OptionsMain::CONTROLLER_DIRECTION) {
-	    Options::controler_direction = !Options::controler_direction;
+	    Options::controller_direction = !Options::controller_direction;
     }
     // ---
     if (selection == OptionsMain::DECR_LED_COUNT) {
@@ -344,7 +317,6 @@ void Options::draw() {
     uint16_t pos  = 0;
 
     for (uint8_t i = 0; i <= OptionsMain::SPACER5; i++, pos += size + 1) {
-
         uint8_t color = COLOR_WALL_1;
         if (i >= OptionsMain::DUNGEON0 && i <= OptionsMain::DUNGEON3 && !(Options::tmp_dungeon & (1<<(i-OptionsMain::DUNGEON0)))) {
             color = COLOR_WALL_0;
@@ -355,7 +327,7 @@ void Options::draw() {
         if (i == OptionsMain::CHECKPOINTS && !Options::checkpoints) {
             color = COLOR_WALL_0;
         } else
-        if (i == OptionsMain::CONTROLLER_DIRECTION && !Options::controler_direction) {
+        if (i == OptionsMain::CONTROLLER_DIRECTION && !Options::controller_direction) {
             color = COLOR_WALL_0;
         } else
         if (i == OptionsMain::SPACER0 || i == OptionsMain::SPACER1 || i == OptionsMain::SPACER2 || 

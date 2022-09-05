@@ -20,7 +20,7 @@ Fog *Fog::spawn(uint8_t *args) {
 
 void Fog::update() {
     MovingEntity::update();
-    int16_t delta = move(speed, false);
+    move(speed, false);
     if (getPosition() + length < 0) {
         this->jump(Options::level_length);
     } else if (getPosition() >= (int16_t) Options::level_length) {

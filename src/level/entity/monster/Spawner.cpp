@@ -7,6 +7,7 @@
 #include "../../Room.h"
 #include "../../Pool.h"
 #include "../../Options.h"
+#include "../../../util/Math.h"
 
 #include "Monster.h"
 
@@ -25,7 +26,7 @@ Spawner *Spawner::spawn(uint8_t mask, uint8_t first, uint8_t interval, int16_t p
 }
 
 void Spawner::update() {
-    if (timer.dec() && abs(Hero::position - pos) > Options::size_large) {
+    if (timer.dec() && math::abs16(Hero::position - pos) > (uint8_t) Options::size_large) {
         // the timer reached zero
         // => spawn a new monster
         // => but only if the player isn't too close

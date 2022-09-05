@@ -1,12 +1,9 @@
-#include "../../Settings.h"
+#include "Platform.h"
 
-#ifdef USE_MPU6050_CONTROLLER
+#ifdef MPU6050_CONTROLLER
 
-#include "Controller.h"
-#include "../Pin.h"
-
-#include "I2Cdev.h"
-#include "MPU6050.h"
+#include <I2Cdev.h>
+#include <MPU6050.h>
 
 #if I2CDEV_IMPLEMENTATION == I2CDEV_ARDUINO_WIRE
     #include "Wire.h"
@@ -15,10 +12,7 @@
 MPU6050 MPU;
 int8_t angle_buffer[2];
 
-void Controller::init() {    
-    Pin::setModeDigitalRead<ATTACK_PIN>();
-    Pin::writeHigh<ATTACK_PIN>();
-    
+void controller_init() {    
     #if I2CDEV_IMPLEMENTATION == I2CDEV_ARDUINO_WIRE
     Wire.begin();
     #elif I2CDEV_IMPLEMENTATION == I2CDEV_BUILTIN_FASTWIRE
@@ -33,11 +27,12 @@ void Controller::init() {
     }
 }
 
-void Controller::callibrate() {
+void controller_callibrate() {
   
 }
 
-void Controller::poll(int8_t &angle, bool &attack) {
+int8_t controller_poll_angle() {
+    int8_t angle;
     int16_t a[3], g[3];
     MPU.getMotion6(&a[0], &a[1], &a[2], &g[0], &g[1], &g[2]);
     angle = a[MPU6050_CONTROLLER_ORIENTATION] / 160;
@@ -66,11 +61,7 @@ void Controller::poll(int8_t &angle, bool &attack) {
         angle = 0;
     }
 
-    /**
-     * Attack:
-     *   read the digital value of the attack pin
-     */
-    attack = !Pin::read<ATTACK_PIN>();
+    return angle;
 }
 
 #endif

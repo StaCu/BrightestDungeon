@@ -1,6 +1,6 @@
 #include "Timer.h"
 
-#include "../Settings.h"
+#include <Platform.h>
 
 uint8_t Timer::global_decrement = 0;
 uint8_t Timer::global_timing = 0;

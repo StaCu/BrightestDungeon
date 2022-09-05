@@ -7,6 +7,7 @@
 #include "../../Room.h"
 #include "../../Pool.h"
 #include "../../Options.h"
+#include "../../../util/Math.h"
 
 #include "../hero/Sword.h"
 #include "../hero/Shot.h"
@@ -44,7 +45,7 @@ void Boss::update() {
 
 void Boss::collision(int16_t depth) {
   if (next_pos == 255) {
-    length -= abs(depth);
+    length -= math::abs16(depth);
     if (length <= 0) {
       this->destroy();
       Sound::play(Sound::ATTACK);

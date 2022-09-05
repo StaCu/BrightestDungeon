@@ -12,15 +12,6 @@
 
 uint16_t Pin::readAnalog(uint8_t pin) {
   uint16_t analog = 0;
-  #ifdef SIMULATOR
-    if (Simulator::getButton() == 'd') {
-      analog = 0;
-    } else if (Simulator::getButton() == 'a') {
-      analog = 1023;
-    } else {
-      analog = 511;
-    }
-  #else
   asm volatile (
   "andi %1, 0x07    \n" //force pin==0 thru 7
   "ori  %1, (%6<<6) \n" //(pin | ADC Vref)
@@ -44,6 +35,5 @@ uint16_t Pin::readAnalog(uint8_t pin) {
   "I" (ADSC), "I" (ANALOG_V_REF), "M" (ADC_PRESCALE)
   : "r18"
   );
-  #endif
   return analog;
 }

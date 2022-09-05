@@ -2,8 +2,6 @@
 
 #include <stdint.h>
 
-#include "../../Settings.h"
-
 /**
  * InternalLoader is a static class, which manages loading of room data
  * from program memory into the pool.

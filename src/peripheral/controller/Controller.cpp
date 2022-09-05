@@ -1,30 +1,40 @@
 #include "Controller.h"
 
+#include <Platform.h>
+
 #include "../../level/Options.h"
+#include "../../util/Math.h"
 
 bool Controller::attack = 0;
 int8_t Controller::angle = 0;
 
+void Controller::init() {
+    controller_init();
+}
+
+void Controller::callibrate() {
+    controller_callibrate();
+}
+
 bool Controller::poll() {
-  bool input = false;
-  int8_t angle = 0;
-  bool attack = false;
-  poll(angle, attack);
+    bool input   = false;
+    int8_t angle = controller_poll_angle();
+    bool attack  = controller_poll_attack();
 
-  if (Options::controler_direction) {
-    angle = 0 - angle;
-  }
-  if (angle != 0) {
-    input = true;
-    Controller::angle = angle * abs(angle) / 100 + (angle > 0 ? 1 : -1);
-  } else {
-    Controller::angle = 0;
-  }
+    if (Options::controller_direction) {
+        angle = 0 - angle;
+    }
+    if (angle != 0) {
+        input = true;
+        Controller::angle = angle * math::abs8(angle) / 100 + (angle > 0 ? 1 : -1);
+    } else {
+        Controller::angle = 0;
+    }
 
-  Controller::attack = attack;
-  if (attack) {
-    input = true;
-  }
+    Controller::attack = attack;
+    if (attack) {
+        input = true;
+    }
 
 #if LOG_CONTROLLER
     LOG("Controller(a: ");
@@ -34,13 +44,17 @@ bool Controller::poll() {
     LOG_LN(")");
 #endif
 
-  return input;
+    return input;
 }
 
 int8_t Controller::getAngle() {
-  return angle;
+    return angle;
 }
 
 bool Controller::isAttack() {
-  return attack;
+    return attack;
+}
+
+bool Controller::pollOptions() {
+    return controller_poll_options();
 }

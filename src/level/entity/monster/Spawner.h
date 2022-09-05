@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../Entity.h"
-#include "../../../peripheral/Timer.h"
+#include "../../../util/Timer.h"
 
 class __attribute__ ((packed)) Spawner : public Entity {
 

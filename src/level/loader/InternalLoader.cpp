@@ -1,6 +1,6 @@
 #include "InternalLoader.h"
 
-#include "../../Settings.h"
+#include <Platform.h>
 
 #include "../Floor.h"
 #include "../Room.h"
@@ -1103,8 +1103,6 @@ bool InternalLoader::load(uint8_t  floor, uint8_t room) {
         CASE(24,1);
         CASE(24,2);
         CASE(25,0);
-        #if !SHORTEN_INTERNAL_DUNGEON
-        // these rooms are not included in the small version
         CASE(26,0);
         CASE(27,0);
         CASE(27,1);
@@ -1115,26 +1113,25 @@ bool InternalLoader::load(uint8_t  floor, uint8_t room) {
         CASE(29,1);
         CASE(255,0);
         #endif
-        #endif
         CASE(255,255);
         default: return false;
     }
 
     while (true) {
-        uint8_t type = pgm_read_byte_near(ptr++);
+        uint8_t type = platform_read_byte_progmem(ptr++);
         LOG("type: ");
         LOG_LN(type);
         switch (type) {
-            case RESET_ID: Entity::resetMaskPartially(pgm_read_byte_near(ptr++)); continue;
+            case RESET_ID: Entity::resetMaskPartially(platform_read_byte_progmem(ptr++)); continue;
             case SECRET_ID: Sound::play(Sound::SECRET); continue;
             case NEXT_ID: Hero::setGoal(true); // no break;
             case END_ID: return true;
         }
 
         uint8_t arg_count = Entity::getArgCount(type);
-        uint8_t args[LEVEL_DESCRIPTION_MAX_PARAMETER_PER_UNIT];
+        uint8_t args[MAX_PARAMETER_PER_ENTITY];
         for (uint8_t arg = 0; arg < arg_count; arg++) {
-            args[arg] = pgm_read_byte_near(ptr++);
+            args[arg] = platform_read_byte_progmem(ptr++);
         }
 
         Entity::spawn(type, &args[0]);

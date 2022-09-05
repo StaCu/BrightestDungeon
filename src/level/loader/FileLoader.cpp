@@ -10,23 +10,27 @@
 #include "../entity/Entity.h"
 #include "../entity/EntityUnion.h"
 
-#ifndef SIMULATOR
-#include <SdFat.h>
-#include <SPI.h>
-#endif
+// max buffer size is 254, because 255 is used to identify errors
+#define FILEIO_BUFFER_SIZE 64
 
-SdFat32 SD;
-FatFile file;
+// the directory and file names are hardcoded
+// the N is replaced by a digit from 0-f
+#define FILEIO_DUNGEON_DIRECTORY "dng/N/"
+// the FFF by a number from 001-255
+#define FILEIO_FLOOR_DIRECTORY "FFF/"
+// the RRR by a number from 000-255
+#define FILEIO_ROOM_FILE "RRR.txt"
+
 char buffer[FILEIO_BUFFER_SIZE+1];
 char filename[] = {'d', 'n', 'g', '/', '\0', '/', '\0', '\0', '\0', '/', '\0', '\0', '\0', '.', 't', 'x', 't', '\0'};
 
 bool FileLoader::load(uint8_t floor, uint8_t room) {
   // File system
-  if (SD.begin(4)) {
+  if (file_system_init()) {
     LOG_LN(F("SD card detected"));
   } else {
     LOG_LN(F("No SD card detected"));
-    SD.end();
+    file_system_deinit();
     return false;
   }
 
@@ -44,23 +48,22 @@ bool FileLoader::load(uint8_t floor, uint8_t room) {
   LOG(F("open file \""));
   LOG(filename);
   LOG_LN(F("\""));
-  file = SD.open(filename);
 
-  if (!file) {
+  if (!file_open(filename)) {
     LOG_LN(F("file not found"));
     // no such file
     // => previous level was the last one
     // => victory :)
-    SD.end();
+    file_system_deinit();
     return false;
   }
 
   // Text
   LOG_LN(F("reading..."));
   uint8_t pos = 0;
-  while (file.available()) {
+  while (file_has_next_char()) {
     // add the next char to the buffer
-    char c = file.read();
+    char c = file_get_next_char();
     buffer[pos++] = c;
 
     if (pos == FILEIO_BUFFER_SIZE+1 &&
@@ -69,8 +72,8 @@ bool FileLoader::load(uint8_t floor, uint8_t room) {
       // => enforce end of command
       c = '\0';
       // find the real end of the line
-      while (file.available()) {
-        char eol = file.read();
+      while (file_has_next_char()) {
+        char eol = file_get_next_char();
         if (eol == '\n' || eol == '\r' || eol == '\0') {
           break;
         }
@@ -90,8 +93,8 @@ bool FileLoader::load(uint8_t floor, uint8_t room) {
     }
   }
 
-  file.close();
-  SD.end();
+  file_close();
+  file_system_deinit();
   return true;
 }
 
@@ -156,7 +159,7 @@ bool FileLoader::process(uint8_t &p, char* b) {
   }
 
   uint8_t arg_count = Entity::getArgCount(type);
-  uint8_t args[LEVEL_DESCRIPTION_MAX_PARAMETER_PER_UNIT];
+  uint8_t args[MAX_PARAMETER_PER_ENTITY];
   for (uint8_t arg = 0; arg < arg_count; arg++) {
       args[arg] = readInt(p,b);
   }
@@ -167,8 +170,8 @@ bool FileLoader::process(uint8_t &p, char* b) {
 
 bool FileLoader::match(uint8_t &pos, char* buffer, const char *token) {
   uint32_t i = 0;
-  while (pgm_read_byte_near(&token[i]) != '\0') {
-    if (pgm_read_byte_near(&token[i]) != buffer[pos+i]) {
+  while (platform_read_byte_progmem(&token[i]) != '\0') {
+    if (platform_read_byte_progmem(&token[i]) != buffer[pos+i]) {
       return false;
     }
     if (buffer[pos+i] == '\0') {

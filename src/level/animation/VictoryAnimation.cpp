@@ -1,10 +1,12 @@
 #include "VictoryAnimation.h"
 
-#include "../../Settings.h"
+#include <Platform.h>
+
 #include "../Options.h"
 
 #include "../../peripheral/sound/Sound.h"
 #include "../../peripheral/led/Panel.h"
+#include "../../util/Random.h"
 
 #include "../Pool.h"
 
@@ -15,7 +17,7 @@
 #include "../Floor.h"
 #include "../Room.h"
 
-#define MAX_COUNT (((POOL_SIZE-2)*4 > 255) ? 255 : ((POOL_SIZE-2)*4))
+#define MAX_COUNT (((MAX_ENTITY_COUNT-2)*4 > 255) ? 255 : ((MAX_ENTITY_COUNT-2)*4))
 
 uint8_t VictoryAnimation::count = 0;
 
@@ -28,7 +30,7 @@ void VictoryAnimation::update() {
     if (count > 1) {
         count -= 1;
         if ((count & 0b11) == 0) {
-            Monster::spawn(0, 0, Options::getRandom(32)+16);
+            Monster::spawn(0, 0, Random::get(32)+16);
         }
     } else if (count == 1 && !Pool::contains(MONSTER_ID)) {
         count = 0;

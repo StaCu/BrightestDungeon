@@ -3,12 +3,13 @@
 #include <stdint.h>
 
 class Options {
+
 public:
 
     // # ================================================================ #
     // # ::  OPTIONS                                                   :: #
     // # ================================================================ #
-    
+
     static uint8_t dungeon;
     static uint8_t start_floor;
     static bool checkpoints;
@@ -17,10 +18,7 @@ public:
     static uint8_t brightness;
     static uint8_t volume;
 
-    static uint8_t controler_direction;
-    static uint8_t joystick_min;
-    static uint8_t joystick_mid;
-    static uint8_t joystick_max;
+    static uint8_t controller_direction;
 
     static bool swap_color;
     static int16_t level_length;
@@ -29,6 +27,8 @@ public:
     static int8_t size_medium;
     static int8_t size_small;
 
+    static void init();
+
     static void read();
 
     static void write();
@@ -36,10 +36,6 @@ public:
     static int16_t scalePosition(uint8_t pos);
 
     static void updateLevelLength();
-
-    static uint16_t getRandom();
-
-    static uint16_t getRandom(uint16_t x);
 
     // # ================================================================ #
     // # ::  SELECTION                                                 :: #

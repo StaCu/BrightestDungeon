@@ -7,6 +7,7 @@
 #include "../../Room.h"
 #include "../../Pool.h"
 #include "../../Options.h"
+#include "../../../util/Math.h"
 
 #include "../hero/Hero.h"
 
@@ -55,7 +56,7 @@ void Item::collision(Hero &hero, int16_t depth) {
 void Item::draw() {
   if (type == SET_COLOR_0 || type == SET_COLOR_1) {
     int8_t timer = Panel::getTimer();
-    uint8_t absolute = abs(timer);
+    uint8_t absolute = math::abs8(timer);
     if (absolute < 16) {
       Panel::draw(getPosition(), COLOR_WALL_1);
     } else if (absolute < 32) {
@@ -63,7 +64,7 @@ void Item::draw() {
       Panel::draw(getPosition()+1, COLOR_WALL_1);
     } else {
       Panel::draw(getPosition()-2, COLOR_WALL_1);
-      if (type == SET_COLOR_0 != Options::swap_color) {
+      if ((type == SET_COLOR_0) != Options::swap_color) {
         Panel::drawLine(getPosition()-1, 3, COLOR_ITEM_COLOR_0);
       } else {
         Panel::drawLine(getPosition()-1, 3, COLOR_ITEM_COLOR_1);
@@ -90,7 +91,7 @@ void Item::draw() {
   }
   if (type == INVERT_CONTROL) {
     int8_t timer = Panel::getTimer();
-    uint8_t absolute = abs(timer);
+    uint8_t absolute = math::abs8(timer);
     // divide into 5 steps
     absolute /= (128 / 5);
 
@@ -102,7 +103,7 @@ void Item::draw() {
     uint8_t idx = (Panel::getTimer() >> 4) * 5;
     uint8_t colors[5];
     for (uint8_t i = 0; i < 5; i++) {
-      colors[i] = pgm_read_byte_near(&led_item_life[idx+i]);
+      colors[i] = platform_read_byte_progmem(&led_item_life[idx+i]);
     }
     Panel::drawLinePattern(getPosition()-2, 5, 0, colors, 5, false);
   }

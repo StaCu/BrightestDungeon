@@ -2,15 +2,15 @@
 
 #include "../../level/entity/EntityUnion.h"
 #include "../../level/Options.h"
+#include "../../util/Math.h"
 
-NBitArray<LED_MAX_COUNT, 5> Panel::indices;
+NBitArray<LED_MAX_COUNT, COLOR_PALETTE_INDEX_BITS> Panel::indices;
 int8_t Panel::timer;
-
-WS2811 Panel::leds;
 
 void Panel::init() {
   Palette::updateBrightness();
-  leds.begin();
+  leds_init();
+  leds_reset();
 }
 
 void Panel::clear() {
@@ -18,11 +18,11 @@ void Panel::clear() {
 }
 
 uint8_t Panel::getPeriodic(uint8_t c0, uint8_t c1) {
-  uint8_t abs = Panel::timer > 0 ? Panel::timer : -Panel::timer;
+  uint8_t abs = math::abs8(Panel::timer);
   if (c1 < c0) {
     uint8_t tmp = c1;
     c1 = c0;
-    c0 = c1;
+    c0 = tmp;
   }
 
   uint8_t dif = c1 - c0;
@@ -78,25 +78,7 @@ void Panel::drawLives(uint8_t lives) {
 
 void Panel::show() {
     timer++;
-    leds.show((WS2811::Color*) &Palette::palette, indices.getDataPtr(), 5, Options::led_count);
-
-#ifdef SIMULATOR
-    uint8_t colors[]     = {  0, 37, 94, 36, 36, 33, 33, 33, 33, 34, 94, 37, 37, 37, 36, 36, 32, 34, 90, 37, 31, 31, 91, 36, 32, 34};
-    uint8_t characters[] = {' ','X','=','-','-','=','L','-','=','-','=','s','S','D','#','-','-','-','w','W','M','M','F','A','H','H'};
-
-    std::string leds = "[";
-    for (uint64_t i = 0; i < Options::led_count; i++) {
-        uint8_t val = indices.get(i);
-        leds += "\033[1;";
-        leds += std::to_string(colors[val]);
-        leds += "m";
-        leds += (char) characters[val];
-        leds += "\033[0m";
-    }
-    leds += "]";
-   // mvprintw(0, 0, leds.c_str());
-    std::cout << leds << std::endl;
-#endif
+    leds_show(indices.getDataPtr(), Palette::palette, COLOR_PALETTE_INDEX_BITS, Options::led_count);
 }
 
 uint8_t Panel::getTimer() {

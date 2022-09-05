@@ -1,8 +1,6 @@
 #pragma once
 
-#include "../../Settings.h"
-
-#include <stdint.h>
+#include <Platform.h>
 
 /**
  * static class which handles playing sound.

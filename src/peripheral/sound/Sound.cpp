@@ -2,7 +2,6 @@
 
 #if ENABLE_SOUND
 
-#include "toneAC.h"
 #include "pitches.h"
 #include "../../level/entity/environment/Fog.h"
 #include "../../level/Options.h"
@@ -48,6 +47,7 @@ uint8_t Sound::bit;
 
 void Sound::init() {
     type = Type::SILENT;
+    sound_init();
 }
 
 void Sound::update() {
@@ -64,11 +64,9 @@ void Sound::update() {
             case Type::ATTACK  : freq = playProgmem(attack, sizeof(attack), 1); break;
             default: break;
         }
-        toneAC(freq, Options::volume);
+        sound_play(freq, Options::volume);
     } else {
-#ifdef SIMULATOR
-        toneAC(0, 255);
-#endif
+        sound_play(0, 255);
     }
 }
 
@@ -78,7 +76,7 @@ uint16_t Sound::playProgmem(const uint8_t *ptr, uint8_t count, uint8_t duration)
         return 0;
     }
     Sound::duration = duration;
-    uint8_t value = pgm_read_byte_near(&ptr[idx]);
+    uint8_t value = platform_read_byte_progmem(&ptr[idx]);
     idx++;
     return value * 4;
 }
@@ -95,7 +93,7 @@ uint16_t Sound::playSecret() {
     }
     
     if (arg == 0) {
-        bit = pgm_read_byte_near(&secret_code[idx]);
+        bit = platform_read_byte_progmem(&secret_code[idx]);
         idx += 1;
         arg  = 8;
         if (idx == sizeof(secret_code)) idx = 0; // loop around
@@ -136,7 +134,7 @@ void Sound::play(Type type) {
         Sound::type = type;
         Sound::idx = 0;
         Sound::duration = 1;
-        bit = pgm_read_byte_near(&secret_code[0]) << 8;
+        bit = platform_read_byte_progmem(&secret_code[0]) << 8;
         arg = 1;
     }
 }

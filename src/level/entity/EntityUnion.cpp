@@ -1,54 +1,7 @@
 #include "EntityUnion.h"
 
-#include "Entity.h"
-#include "LongEntity.h"
-#include "MovingEntity.h"
-#include "hero/Hero.h"
-#include "hero/Shot.h"
-#include "hero/Sword.h"
-#include "monster/Boss.h"
-#include "monster/Monster.h"
-#include "monster/Spawner.h"
-#include "monster/Worm.h"
-#include "environment/Button.h"
-#include "environment/Door.h"
-#include "environment/Fog.h"
-#include "environment/ForceField.h"
-#include "environment/Item.h"
-#include "environment/Lava.h"
-#include "environment/Mine.h"
-#include "environment/Portal.h"
-#include "environment/Switch.h"
-#include "environment/Wall.h"
-#include "environment/Water.h"
-
 EntityUnion::EntityUnion() {
     type = ENTITY_TYPE_COUNT;
-    sizeof(EntityUnion);
-    sizeof(Entity);
-    sizeof(LongEntity);
-    sizeof(MovingEntity);
-
-    sizeof(Hero);
-    sizeof(Shot);
-    sizeof(Sword);
-
-    sizeof(Boss);
-    sizeof(Monster);
-    sizeof(Spawner);
-    sizeof(Worm);
-    
-    sizeof(Button);
-    sizeof(Door);
-    sizeof(Fog);
-    sizeof(ForceField);
-    sizeof(Item);
-    sizeof(Lava);
-    sizeof(Mine);
-    sizeof(Portal);
-    sizeof(Switch);
-    sizeof(Wall);
-    sizeof(Water);
 }
 
 bool EntityUnion::isActive() const {

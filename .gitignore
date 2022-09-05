@@ -1,0 +1,12 @@
+# ide
+.pio/*
+.vscode/*
+
+# simulator
+dng/eeprom.bin
+dng/log.txt
+
+# cad 
+*.FCStd1
+*.stl
+*.gcode

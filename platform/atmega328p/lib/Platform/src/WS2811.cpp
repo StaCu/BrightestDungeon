@@ -1,16 +1,12 @@
 #include "WS2811.h"
 
-#include "../../Settings.h"
+#include "Platform.h"
 
-#ifdef SIMULATOR
-
-void WS2811::begin() {}
-void WS2811::reset() {}
-void WS2811::show(const Color *colors, const uint8_t *indices, uint8_t mode, uint16_t n) {}
-void WS2811::assembler(const Color *colors, const uint8_t *indices, uint8_t idx_bits, uint16_t n) {}
-void __attribute__((noinline)) WS2811::assembler0(const Color *colors, const uint8_t *indices, uint8_t idx_bits, uint16_t n) {}
-
+#if defined(ARDUINO) && ARDUINO >= 100
+    #include <Arduino.h>
 #else
+    #include <WProgram.h>
+#endif
 
 extern "C" {
 extern volatile unsigned long timer0_millis;
@@ -386,9 +382,3 @@ void WS2811::assembler0(const Color *colors, const uint8_t *indices, uint8_t idx
      "r26", "r27", "r28", "r29" // X, Y
   );
 }
-
-// ################
-// ##            ##
-// ################
-
-#endif

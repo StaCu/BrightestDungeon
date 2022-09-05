@@ -1,6 +1,7 @@
 #include "Room.h"
 
-#include "../Settings.h"
+#include <Platform.h>
+
 #include "../Dungeon.h"
 
 #include "entity/environment/Door.h"
@@ -18,7 +19,7 @@
 
 #include "../peripheral/sound/Sound.h"
 #include "../peripheral/led/Panel.h"
-#include "../peripheral/Timer.h"
+#include "../util/Timer.h"
 
 #include "animation/ExplosionAnimation.h"
 #include "animation/VictoryAnimation.h"

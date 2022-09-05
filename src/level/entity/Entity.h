@@ -1,6 +1,8 @@
 #pragma once
 
-#include "../../Settings.h"
+#include <Platform.h>
+
+#define MAX_PARAMETER_PER_ENTITY 5
 
 enum EntityType : uint8_t {
     WATER_ID,

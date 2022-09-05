@@ -1,10 +1,10 @@
 #pragma once
 
-#include "../../Settings.h"
-#include "../NBitArray.h"
+#include <Platform.h>
+
 #include "Palette.h"
 
-#include "WS2811.h"
+#include "../../util/NBitArray.h"
 
 class Panel {
 
@@ -13,14 +13,12 @@ private:
   /**
    * storage for the level led colors
    */
-  static NBitArray<LED_MAX_COUNT, 5> indices;
+  static NBitArray<LED_MAX_COUNT, COLOR_PALETTE_INDEX_BITS> indices;
 
   /**
    * timer used for periodic color changes
    */
   static int8_t timer;
-
-  static WS2811 leds;
 
   /**
    * computes the color index corresponding to the current timer

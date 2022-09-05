@@ -7,6 +7,8 @@
 #include "../../Room.h"
 #include "../../Pool.h"
 #include "../../Options.h"
+#include "../../../util/Random.h"
+#include "../../../util/Math.h"
 
 #include "../hero/Sword.h"
 #include "../hero/Shot.h"
@@ -49,7 +51,7 @@ void Worm::update() {
         speed = 0 - speed;
     }
     if (contracting) {
-        length -= abs(old_pos - pos);
+        length -= math::abs16(old_pos - pos);
         if (length < Options::size_small - cut/4) {
             // note:
             // -cut/4 has the side effect that
@@ -58,7 +60,7 @@ void Worm::update() {
             contracting = 0;
         }
     } else {
-        length += abs(old_pos - pos);
+        length += math::abs16(old_pos - pos);
         if (length > Options::size_large - cut) {
             length = Options::size_large - cut;
             contracting = 0b10000000;
@@ -78,8 +80,8 @@ void Worm::collision_turn(int16_t depth) {
 void Worm::collision_harm(int16_t depth) {
     int8_t length = contracting_and_length & 0b01111111;
     uint8_t contracting = contracting_and_length & 0b10000000;
-    length -= abs(depth);
-    cut += abs(depth);
+    length -= math::abs16(depth);
+    cut += math::abs16(depth);
     if (length <= 0) {
         this->destroy();
         Sound::play(Sound::ATTACK);
@@ -118,7 +120,7 @@ void Worm::collision(Wall &wall, int16_t depth) {
 }
 
 void Worm::draw() {
-    uint8_t flicker = Options::getRandom(3);    
+    uint8_t flicker = Random::get(3);    
     bool contracting = contracting_and_length & 0b10000000;
     int8_t length = contracting_and_length & 0b01111111;
     int16_t pos  = getPosition();

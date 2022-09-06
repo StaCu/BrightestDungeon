@@ -25,6 +25,13 @@
 #define PROGMEM
 #endif
 
+#define ENTRY_POINT(x) \
+int main() { \
+    platform_init(argc, argv); \
+    {x;} \
+    return 0; \
+}
+
 void platform_init(int argc, const char **argv);
 
 void platform_deinit();

@@ -11,7 +11,7 @@
 #include "src/Dungeon.h"
 
 void setup() {
-    Dungeon::setup(0, nullptr);
+    Dungeon::setup();
     Dungeon::run();
 }
 

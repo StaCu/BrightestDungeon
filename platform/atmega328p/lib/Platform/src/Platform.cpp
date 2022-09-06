@@ -6,7 +6,7 @@
 // # ::  PLATFORM                                                  :: #
 // # ================================================================ #
 
-void platform_init(int argc, const char **argv) {
+void platform_init() {
     Pin::setModeDigitalRead<OPTIONS_PIN>();
     Pin::writeHigh<OPTIONS_PIN>();
 
@@ -126,7 +126,7 @@ int8_t controller_poll_angle() {
         ax = (ax * 100) / (joystick_max - joystick_mid);
     } else {
         ax = 0;
-    }*/
+    }
 
     /*
      * the potentiometer I used was fairly consistent, i.e. when not moving,

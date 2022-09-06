@@ -20,7 +20,7 @@ public:
     /**
      * initiates the dungeon, static classes and io
      */
-    static void setup(int argc, const char **argv);
+    static void setup();
 
 private:
     /**

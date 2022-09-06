@@ -25,7 +25,14 @@
 // # ::  PLATFORM                                                  :: #
 // # ================================================================ #
 
-void platform_init(int argc, const char **argv);
+#define ENTRY_POINT(x) \
+int main() { \
+    platform_init(); \
+    {x;} \
+    return 0; \
+}
+
+void platform_init();
 
 void platform_deinit();
 

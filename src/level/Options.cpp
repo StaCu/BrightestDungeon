@@ -95,7 +95,9 @@ void Options::read() {
         volume       = DEFAULT_VOLUME;
         
         controller_direction = DEFAULT_DIRECTION;
+        #if ENABLE_RUNTIME_SETTINGS
         settings_default();
+        #endif
     }
 
     // sanitize settings
@@ -106,7 +108,9 @@ void Options::read() {
     if (Options::controller_direction) {
         Options::controller_direction = true;
     }
+    #if ENABLE_RUNTIME_SETTINGS
     settings_check();
+    #endif
 
     Options::updateLevelLength();
     Palette::updateBrightness();

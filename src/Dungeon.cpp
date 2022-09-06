@@ -15,8 +15,8 @@
 #include "peripheral/sound/Sound.h"
 #include "peripheral/led/Panel.h"
 
-void Dungeon::setup(int argc, const char **argv) {
-    platform_init(argc, argv);
+void Dungeon::setup() {
+    platform_init();
     platform_watchdog_disable();
     #if ENABLE_LOGGING
         log_init();

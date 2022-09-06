@@ -29,7 +29,7 @@ std::ofstream *log_file;
 int sound_freq = 0;
 int sound_vol = 0;
 
-void platform_init(int argc, const char **argv) {
+void simulator_init(int argc, const char **argv) {
     const char *path = "";
     if (argc > 1) {
         path = argv[1];
@@ -44,7 +44,7 @@ void platform_init(int argc, const char **argv) {
     #if ENABLE_LOGGING
     log_file = new std::ofstream(log_path.c_str());
     last_log = platform_millis();
-    #endif
+    #endif    
 
     initscr();
     noecho();
@@ -53,6 +53,10 @@ void platform_init(int argc, const char **argv) {
     nodelay(stdscr, true);
     keypad(stdscr, true);
     curs_set(FALSE);
+}
+
+void platform_init() {
+
 }
 
 void platform_deinit() {

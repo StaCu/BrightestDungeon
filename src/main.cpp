@@ -1,18 +1,18 @@
-#ifdef NORMAL_ENTRY_POINT
+#ifdef PLATFORM_ENTRY_POINT
 /*
- * The NORMAL_ENTRY_POINT is used by PlatformIO.
+ * The PLATFORM_ENTRY_POINT is used by PlatformIO.
  * Arduino IDE uses the .ino file in the ../ directory.
  * However, Arduino IDE can't handle a second main function in the src/
  * directory.
  * This macro allows building with all both tool flows.
  */
 
+#include "Platform.h"
 #include "Dungeon.h"
 
-int main(int argc, const char **argv) {
-    Dungeon::setup(argc, argv);
+ENTRY_POINT(
+    Dungeon::setup();
     Dungeon::run();
-    return 0;
-}
+)
 
 #endif

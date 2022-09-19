@@ -1,4 +1,5 @@
 #!/bin/python3
+import os
 # To generate a secret morse code that can be integrated into the game write the text here and run the script.
 # It will update the source code accordingly.
 
@@ -127,5 +128,6 @@ def convert_text_to_morse_cpp(text):
 # convert the given text
 code = convert_text_to_morse_cpp(text)
 # integrate the code into the game
-with open('src/Secret.h', 'w') as file:
+path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'src/Secret.h')
+with open(path, 'w') as file:
     file.write(code)

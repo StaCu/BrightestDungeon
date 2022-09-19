@@ -10,8 +10,9 @@ You will have to prove your wits and worthiness by solving the puzzle on each fl
 
 ## Getting it up and running
 
-The minimal hardware requirements to play BrightestDungeon are a microcontroller, an LED strip, a potentiometer and a button.
-An accelerometer, sound driver and sdcard reader can improve the experience.
+The minimal hardware requirements to play BrightestDungeon include a microcontroller (Atmega328p), LED strip (WS2812), potentiometer and a button.
+An accelerometer (MPU6050), sound driver and sdcard reader can improve the experience.
+The code can be easily ported to other platforms as well.
 Alternatively, one can also be play from the linux terminal.
 
 ### Microcontroller

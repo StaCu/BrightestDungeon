@@ -101,7 +101,7 @@ uint32_t platform_millis() {
     return std::chrono::duration_cast<std::chrono::milliseconds>(NOW_TIME-START_TIME).count();
 }
 
-void platform_watchdog_enable(int timing) {
+void platform_watchdog_enable() {
     
 }
 
@@ -204,32 +204,32 @@ void sound_play(uint16_t frequency, uint8_t volume) {
 
 #if ENABLE_LOGGING
 
-void log_init() {
+void platform_log_init() {
 
 }
 
-void log(const char *text) {
+void platform_log(const char *text) {
     *log_file << text;
     #ifdef INSTANT_FLUSH
         log_file->flush();
     #endif
 }
 
-void log(int64_t val) {
+void platform_log(int64_t val) {
     *log_file << val;
     #ifdef INSTANT_FLUSH
         log_file->flush();
     #endif
 }
 
-void logln(const char *text) {
+void platform_logln(const char *text) {
     *log_file << text << std::endl;
     #ifdef INSTANT_FLUSH
         log_file->flush();
     #endif
 }
 
-void logln(int64_t val) {
+void platform_logln(int64_t val) {
     *log_file << val << std::endl;
     #ifdef INSTANT_FLUSH
         log_file->flush();

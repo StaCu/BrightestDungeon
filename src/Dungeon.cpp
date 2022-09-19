@@ -19,7 +19,7 @@ void Dungeon::setup() {
     platform_init();
     platform_watchdog_disable();
     #if ENABLE_LOGGING
-        log_init();
+        platform_log_init();
     #endif
     LOG_LN(F("init:"));
     while (platform_millis() < STARTUP_SAFETY_TIME) {
@@ -28,9 +28,9 @@ void Dungeon::setup() {
     Options::init();
     Controller::init();
     Sound::init();
-    Panel::init();
+    Panel::init(); 
     #if ENABLE_WATCHDOG
-        platform_watchdog_enable(WATCHDOG_INTERVAL);
+        platform_watchdog_enable();
     #endif
     LOG_LN(F("done"));
 }

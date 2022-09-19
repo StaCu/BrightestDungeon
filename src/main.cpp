@@ -7,7 +7,7 @@
  * This macro allows building with all both tool flows.
  */
 
-#include "Platform.h"
+#include <Platform.h>
 #include "Dungeon.h"
 
 ENTRY_POINT(

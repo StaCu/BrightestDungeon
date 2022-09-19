@@ -53,11 +53,10 @@ char platform_read_byte_progmem(const char *ptr);
 #define STAND_BY_TIMEOUT_RESET 74000
 
 #define ENABLE_WATCHDOG       false
-#define WATCHDOG_INTERVAL     WDTO_120MS
 
 uint32_t platform_millis();
 
-void platform_watchdog_enable(int timing);
+void platform_watchdog_enable();
 
 void platform_watchdog_disable();
 
@@ -145,19 +144,19 @@ void sound_play(uint16_t frequency, uint8_t volume);
 #define LOG_CONTROLLER false
 #define LOG_TIMING_SLACK false
 
-void log_init();
+void platform_log_init();
 
-void log(const char *text);
+void platform_log(const char *text);
 
-void log(int64_t val);
+void platform_log(int64_t val);
 
-void logln(const char *text);
+void platform_logln(const char *text);
 
-void logln(int64_t val);
+void platform_logln(int64_t val);
 
 #if ENABLE_LOGGING
-#define LOG(x) log(x)
-#define LOG_LN(x) logln(x)
+#define LOG(x) platform_log(x)
+#define LOG_LN(x) platform_logln(x)
 #else
 #define LOG(x)
 #define LOG_LN(x)

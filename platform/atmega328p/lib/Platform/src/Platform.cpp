@@ -42,8 +42,8 @@ uint32_t platform_millis() {
     return millis();
 }
 
-void platform_watchdog_enable(int timing) {
-    wdt_enable(timing);    
+void platform_watchdog_enable() {
+    wdt_enable(WATCHDOG_INTERVAL);    
 }
 
 void platform_watchdog_disable() {
@@ -185,24 +185,24 @@ void sound_init() {
 
 #if ENABLE_LOGGING
 
-void log_init() {
+void platform_log_init() {
     Serial.begin(BAUDRATE);
 }
 
-void log(const char *text) {
+void platform_log(const char *text) {
     Serial.print(text);
 }
 
-void log(int64_t val) {
-    Serial.print(val);
+void platform_log(int64_t val) {
+    Serial.print((int) val);
 }
 
-void logln(const char *text) {
+void platform_logln(const char *text) {
     Serial.println(text);
 }
 
-void logln(int64_t val) {
-    Serial.println(val);
+void platform_logln(int64_t val) {
+    Serial.println((int) val);
 }
 
 #endif

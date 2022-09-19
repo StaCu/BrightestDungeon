@@ -31,4 +31,4 @@ platform/                 |
 + Porting.md              | how to port to a new platform
 platformio.ini            | build tool instructions
 
-See platform/simulator/ for for a simple example.
+See platform/simulator/ for a simple example.

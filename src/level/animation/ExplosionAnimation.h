@@ -5,6 +5,14 @@
 class ExplosionAnimation {
 
 private:
+    enum State : uint8_t {
+        OFF = 0,
+        LOOSE = 1,
+        EXPLODE = 21,
+        IMPLODE = EXPLODE + 1,
+        DOOR = IMPLODE + 1
+    };
+
     static uint8_t show_idx;
     static uint8_t color;
     static uint8_t state;

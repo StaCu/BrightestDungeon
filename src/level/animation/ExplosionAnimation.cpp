@@ -16,7 +16,7 @@
 
 uint8_t ExplosionAnimation::show_idx = 0;
 uint8_t ExplosionAnimation::color = 0;
-uint8_t ExplosionAnimation::state = 0;
+uint8_t ExplosionAnimation::state = State::OFF;
 int8_t ExplosionAnimation::substep = 0;
 int16_t ExplosionAnimation::pos = 0;
 int16_t ExplosionAnimation::size = 0;
@@ -27,13 +27,8 @@ void ExplosionAnimation::explode(uint8_t color, bool show_idx) {
         return;
     }
 
-    if (color == COLOR_MONSTER_0) {
-        Sound::play(Sound::FAILURE);
-    } else {
-        Sound::play(Sound::SUCCESS);
-    }
     ExplosionAnimation::color = color;
-    state = 1;
+    state = (show_idx && color == COLOR_MONSTER_0) ? State::LOOSE : State::EXPLODE-1;
     ExplosionAnimation::show_idx = show_idx;
     substep = 0;
     pos = Hero::position;
@@ -46,7 +41,7 @@ void ExplosionAnimation::implode(uint8_t color) {
     }
 
     ExplosionAnimation::color = color;
-    state = 2;
+    state = State::IMPLODE;
     maxsize = size;
 }
 
@@ -57,7 +52,7 @@ void ExplosionAnimation::door(uint8_t color, int16_t pos) {
 
     ExplosionAnimation::color = color;
     ExplosionAnimation::pos = pos;
-    state = 3;
+    state = State::DOOR;
     size = 1;
     substep = 0;
 
@@ -69,12 +64,24 @@ void ExplosionAnimation::update() {
         return;
     }
 
+    if (state == State::EXPLODE-1) {
+        if (color == COLOR_MONSTER_0) {
+            Sound::play(Sound::FAILURE);
+        } else {
+            Sound::play(Sound::SUCCESS);
+        }
+    }
+    if (state < State::EXPLODE) {
+        state += 1;
+        return;
+    }
+
     substep -= EXPLOSION_SPEED;
     while (substep < 0) {
         substep += Options::sub_steps;
-        if (state == 1) {
+        if (state == State::EXPLODE) {
             size += 1;
-        } else if (state == 2) {
+        } else if (state == State::IMPLODE) {
             size -= 1;
         } else {
             if (Hero::position < pos) {
@@ -85,14 +92,14 @@ void ExplosionAnimation::update() {
         }
     }
 
-    if (state == 1) {
+    if (state == State::EXPLODE) {
         if (pos - size < 0 && pos + size >= Options::level_length) {
-            state = 0;
+            state = State::OFF;
         }
-    } else if (state == 2 && size <= 0) {
-        state = 0;
-    } else if (state == 3 && pos == Hero::position) {
-        state = 0;
+    } else if (state == State::IMPLODE && size <= 0) {
+        state = State::OFF;
+    } else if (state == State::DOOR && pos == Hero::position) {
+        state = State::OFF;
     }
 }
 
@@ -136,7 +143,7 @@ void ExplosionAnimation::draw() {
     }
 
     int16_t origin = pos;
-    if (state == 2) {
+    if (state == State::IMPLODE) {
         origin = Hero::position + size * (pos - Hero::position) / maxsize;
     }
 
@@ -154,13 +161,13 @@ void ExplosionAnimation::draw() {
 }
 
 bool ExplosionAnimation::isActive() {
-    return state;
+    return state != State::OFF;
 }
 
 bool ExplosionAnimation::isExplosion() {
-    return state == 1;
+    return state >= State::LOOSE && state <= State::EXPLODE;
 }
 
 bool ExplosionAnimation::isImplosionOrDoor() {
-    return state >= 2;
+    return state >= State::IMPLODE;
 }

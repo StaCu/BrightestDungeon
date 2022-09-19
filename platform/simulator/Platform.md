@@ -18,7 +18,7 @@ However, this meant to be more for debugging and creating new levels rather than
 
 ## Required Libraries:
 
-- other
- - ncurses
-- specific
- - Platform
+- Common
+- Specific
+  - ncurses
+  - Platform

@@ -50,26 +50,26 @@ However, this meant to be more for debugging and creating new levels rather than
 
 The following is a simplified structure of the project to show where to find information about its different parts.
 
-folder/file               | content
---------------------------|-------------
-cad/                      |
-+ img/                    | some images to look at
-+ Build Instructions.md   | how to build the game
-dng/                      |
-+ 0-f/                    | sdcard-loadable dungeons
-+ Create Dungeon.md       | how to create new dungeons/floors/rooms
-+ Entity Cheat Sheat.md   | explanation of each entity
-+ Runtime Settings.md     | explanation of runtime settings
-+ template.txt            | template for a dungeon room
-platform/                 |
-+ lib/                    | common libraries
-+ \<platforms\>/          | 
-++ lib/                   | libraries for each platform
-++ Platform.md            | information about the platform
-+ Porting.md              | how to port to a new platform
-src/                      | 
-BrightestDungeon.ino      | entry point for ArduinoIDE
-LICENSE                   | GPLv3
-platformio.ini            | build tool instructions
-README.md                 | this file
-sdcard.sh                 | copy everything to an sdcard
+folder/file                  | content
+-----------------------------|-------------
+cad/                         |
+\|-- img/                    | some images to look at
+\|-- Build Instructions.md   | how to build the game
+dng/                         |
+\|-- 0-f/                    | sdcard-loadable dungeons
+\|-- Create Dungeon.md       | how to create new dungeons/floors/rooms
+\|-- Entity Cheat Sheat.md   | explanation of each entity
+\|-- Runtime Settings.md     | explanation of runtime settings
+\|-- template.txt            | template for a dungeon room
+platform/                    |
+\|-- lib/                    | common libraries
+\|-- \<platforms\>/          | 
+\|-- \|-- lib/               | libraries for each platform
+\|-- \|-- Platform.md        | information about the platform
+\|-- Porting.md              | how to port to a new platform
+src/                         | 
+BrightestDungeon.ino         | entry point for ArduinoIDE
+LICENSE                      | GPLv3
+platformio.ini               | build tool instructions
+README.md                    | this file
+sdcard.sh                    | copy everything to an sdcard

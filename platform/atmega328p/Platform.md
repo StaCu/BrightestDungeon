@@ -6,29 +6,29 @@ The default values are:
 Usage              | Pin
 -------------------|---------------
 Simple Controller  |
- \- Potentiometer  | A5
- \- Attack Button  | D2
+\|-- Potentiometer  | A5
+\|-- Attack Button  | D2
 MPU6050            |
- \- SCL            | A5
- \- SDA            | A4
- \- Attack Button  | D2
+\|-- SCL            | A5
+\|-- SDA            | A4
+\|-- Attack Button  | D2
 LED                |
- \- Data           | D8
+\|-- Data           | D8
 Sound              |
- \- Passive Buzzer | D9, D10
+\|-- Passive Buzzer | D9, D10
 Options            | D3
 SD Card            | (many sdcard modules use 3.3V)
- \- MOSI           | D11
- \- MISO           | D12
- \- CLK            | D13
- \- CS             | D4
+\|-- MOSI           | D11
+\|-- MISO           | D12
+\|-- CLK            | D13
+\|-- CS             | D4
 
 
 ## Required Libraries:
 
-- common
- - SdFat
-- specific
- - I2Cdev
- - MPU6050
- - Platform
+- Common
+  - SdFat
+- Specific
+  - I2Cdev
+  - MPU6050
+  - Platform

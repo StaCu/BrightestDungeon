@@ -13,17 +13,6 @@
 // max buffer size is 254, because 255 is used to identify errors
 #define FILEIO_BUFFER_SIZE 64
 
-// the directory and file names are hardcoded
-// the N is replaced by a digit from 0-f
-#define FILEIO_DUNGEON_DIRECTORY "dng/N/"
-// the FFF by a number from 001-255
-#define FILEIO_FLOOR_DIRECTORY "FFF/"
-// the RRR by a number from 000-255
-#define FILEIO_ROOM_FILE "RRR.txt"
-
-char buffer[FILEIO_BUFFER_SIZE+1];
-char filename[] = {'d', 'n', 'g', '/', '\0', '/', '\0', '\0', '\0', '/', '\0', '\0', '\0', '.', 't', 'x', 't', '\0'};
-
 bool FileLoader::load(uint8_t floor, uint8_t room) {
   // File system
   if (file_system_init()) {
@@ -41,6 +30,14 @@ bool FileLoader::load(uint8_t floor, uint8_t room) {
   } else {
     dungeon += '0';
   }
+
+  // the directory and file names are hardcoded
+  // the 1st     \0 is replaced by a digit from 0-f
+  // the 2nd \0\0\0 by a number from 001-255
+  // the 3rd \0\0\0 by a number from 000-255
+  char buffer[FILEIO_BUFFER_SIZE+1];
+  char filename[] = {'d', 'n', 'g', '/', '\0', '/', '\0', '\0', '\0', '/', '\0', '\0', '\0', '.', 't', 'x', 't', '\0'};
+
   filename[4] = dungeon;
   intToDec(floor, &filename[6]);
   intToDec(room, &filename[10]);

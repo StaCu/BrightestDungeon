@@ -23,7 +23,7 @@ const uint8_t PROGMEM Palette::unscaled_palette[] = {
     COLOR_SWIZZLE( 32,  92, 128), // PORTAL_BLUE_0
     COLOR_SWIZZLE(  0,  16,  32), // PORTAL_BLUE_1
 
-    COLOR_SWIZZLE( 64,   0,  32), // SWITCH_OFF
+    COLOR_SWIZZLE( 32,   0,  16), // SWITCH_OFF
     COLOR_SWIZZLE(255,   0,  64), // SWITCH_ON
     COLOR_SWIZZLE(224, 224, 224), // DOOR
 
@@ -65,7 +65,7 @@ const uint8_t PROGMEM Palette::unscaled_palette[] = {
     COLOR_SWIZZLE(  0,  64, 255), // PORTAL_BLUE_0
     COLOR_SWIZZLE( 16,  64, 128), // PORTAL_BLUE_1
 
-    COLOR_SWIZZLE( 64,   0,  32), // SWITCH_OFF
+    COLOR_SWIZZLE( 32,   0,  16), // SWITCH_OFF
     COLOR_SWIZZLE(255,   0,  64), // SWITCH_ON
     COLOR_SWIZZLE(224, 224, 224), // DOOR
 

@@ -10,13 +10,12 @@
 const uint8_t PROGMEM Palette::unscaled_palette[] = {
     COLOR_SWIZZLE(  0,   0,   0), // OFF, WATER_3
 
+    COLOR_SWIZZLE( 32,  16,   0), // LAVA_OFF, MINE_0, ITEM_INVERT_1
+
     COLOR_SWIZZLE( 64,  64, 128), // WATER_0
     COLOR_SWIZZLE( 32,  32,  64), // WATER_1
     COLOR_SWIZZLE( 16,  16,  32), // WATER_2
     COLOR_SWIZZLE( 16,  16,  16), // WATER_2
-
-    COLOR_SWIZZLE( 32,  16,   0), // LAVA_OFF, MINE_0, ITEM_INVERT_1
-    COLOR_SWIZZLE(255, 196,  64), // LAVA_ON, MINE_1, ITEM_INVERT_0
 
     COLOR_SWIZZLE(128,  92,  32), // PORTAL_ORANGE_0
     COLOR_SWIZZLE( 32,  16,   0), // PORTAL_ORANGE_1
@@ -32,6 +31,8 @@ const uint8_t PROGMEM Palette::unscaled_palette[] = {
     COLOR_SWIZZLE(  0,  32,  32), // ITEM_ATTACK
     COLOR_SWIZZLE(  0,  32,   0), // ITEM_COLOR_0
     COLOR_SWIZZLE(  0,   0,  32), // ITEM_COLOR_1
+
+    COLOR_SWIZZLE(255, 196,  64), // LAVA_ON, MINE_1, ITEM_INVERT_0
 
     COLOR_SWIZZLE( 32,  32,  32), // WALL 0
     COLOR_SWIZZLE(128, 128, 128), // WALL 1
@@ -51,13 +52,12 @@ const uint8_t PROGMEM Palette::unscaled_palette[] = {
 const uint8_t PROGMEM Palette::unscaled_palette[] = {
     COLOR_SWIZZLE(  0,   0,   0), // OFF, WATER_3
 
+    COLOR_SWIZZLE( 64,  16,   0), // LAVA_OFF, ITEM_INVERT_1, COLOR_MINE_END
+
     COLOR_SWIZZLE( 64,  64, 128), // WATER_0
     COLOR_SWIZZLE(  0,  32, 128), // WATER_1
     COLOR_SWIZZLE(  0,   0, 128), // WATER_2
     COLOR_SWIZZLE( 32,  32,  32), // WATER_4
-
-    COLOR_SWIZZLE( 64,  16,   0), // LAVA_OFF, ITEM_INVERT_1, COLOR_MINE_END
-    COLOR_SWIZZLE(255, 196,   0), // LAVA_ON, ITEM_INVERT_0, COLOR_MINE_BEGIN
 
     COLOR_SWIZZLE(255,  64,   0), // PORTAL_ORANGE_0
     COLOR_SWIZZLE(128,  64,  16), // PORTAL_ORANGE_1
@@ -73,6 +73,8 @@ const uint8_t PROGMEM Palette::unscaled_palette[] = {
     COLOR_SWIZZLE(  0,  32,  32), // ITEM_ATTACK
     COLOR_SWIZZLE(  0,  32,   0), // ITEM_COLOR_0
     COLOR_SWIZZLE(  0,   0,  32), // ITEM_COLOR_1
+
+    COLOR_SWIZZLE(255, 196,   0), // LAVA_ON, ITEM_INVERT_0, COLOR_MINE_BEGIN
 
     COLOR_SWIZZLE( 32,  32,  32), // WALL 0
     COLOR_SWIZZLE(128, 128, 128), // WALL 1

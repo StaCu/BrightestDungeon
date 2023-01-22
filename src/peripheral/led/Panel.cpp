@@ -18,18 +18,11 @@ void Panel::clear() {
 }
 
 uint8_t Panel::getPeriodic(uint8_t c0, uint8_t c1) {
-  uint8_t abs = math::abs8(Panel::timer);
-  if (c1 < c0) {
-    uint8_t tmp = c1;
-    c1 = c0;
-    c0 = tmp;
-  }
-
-  uint8_t dif = c1 - c0;
-  uint8_t idx = ((abs * dif + 64) >> 7);
-
-  idx += c0;
-  return idx;
+    if (Panel::timer >= 0) {
+        return c0;
+    } else {
+        return c1;
+    }
 }
 
 void Panel::draw(int16_t pos, uint8_t c) {

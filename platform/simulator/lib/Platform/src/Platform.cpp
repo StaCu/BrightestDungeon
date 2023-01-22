@@ -126,8 +126,8 @@ void leds_reset() {
 }
 
 void leds_show(uint8_t *indices, uint8_t *palette, uint8_t index_bits, uint16_t led_count) {
-    uint8_t colors[]     = {  0, 37, 94, 36, 36, 33, 33, 33, 33, 34, 94, 37, 37, 37, 36, 36, 32, 34, 90, 37, 31, 31, 91, 36, 32, 34};
-    uint8_t characters[] = {' ','X','=','-','-','=','L','-','=','-','=','s','S','D','#','-','-','-','w','W','M','M','F','A','H','H'};
+    uint8_t colors[]     = {  0, 33, 37, 94, 36, 36, 33, 33, 34, 94, 37, 37, 37, 36, 36, 32, 34, 33, 90, 37, 31, 31, 91, 36, 32, 34};
+    uint8_t characters[] = {' ','=','X','=','-','-','-','=','-','=','s','S','D','#','-','-','-','L','w','W','M','M','F','A','H','H'};
 
     std::string leds = "[";
     for (uint64_t i = 0; i < led_count; i++) {

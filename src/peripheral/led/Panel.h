@@ -53,12 +53,8 @@ public:
   static void draw(int16_t pos, uint8_t c);
   /**
    * sets the color of the LED at position pos
-   * to a color saved between palette[c0] and palette[c1].
-   * the exact index used depends on the timing.
-   * basically, it will start at c0, go up to c1 over time
-   * and go back to c0 over time again, repeat.
-   *
-   * switching c0 and c1 will shift the period by half a period.
+   * to either palette[c0] and palette[c1].
+   * It switches between c0 and c1 over time.
    *
    * @param pos
    *    0 <= pos < LEVEL_LED_COUNT
@@ -78,13 +74,9 @@ public:
   static void drawLine(int16_t pos, int16_t dim, uint8_t c, bool force = false);
 
   /**
-   * sets the color of the LEDs from pos to pos+dim
-   * to a color saved between palette[c0] and palette[c1].
-   * the exact index used depends on the timing.
-   * basically, it will start at c0, go up to c1 over time
-   * and go back to c0 over time again, repeat.
-   *
-   * switching c0 and c1 will shift the period by half a period.
+   * sets the color of the LED at position pos
+   * to either palette[c0] and palette[c1].
+   * It switches between c0 and c1 over time.
    *
    * @param pos
    *    0 <= pos < LEVEL_LED_COUNT

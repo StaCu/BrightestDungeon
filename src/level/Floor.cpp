@@ -60,7 +60,11 @@ void Floor::resetAll() {
     if (Options::isOptions()) {
         Options::write();
     }
-    Options::swap_color = false;
+    if (Floor::idx == Options::start_floor) {
+        // in this case, it is okay to break with the color-continuity
+        // across floors to ensure the first level always looks the same
+        Options::swap_color = false;
+    }
 }
 
 void Floor::load() {

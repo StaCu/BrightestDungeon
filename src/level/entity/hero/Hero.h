@@ -41,7 +41,7 @@ public:
 
     RESET_FAILURE   = 0b01000100,
     RESET_SUCCESS   = 0b01101000,
-    RESET_ALL       = 0b01101100,
+    RESET_DEFEAT    = 0b01101100,
   };
 
   static int8_t lives;
@@ -133,7 +133,7 @@ public:
 
   static void resetSuccess();
 
-  static void resetAll();
+  static void resetDefeat();
 
   static void set(uint8_t bit);
 

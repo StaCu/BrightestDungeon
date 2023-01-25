@@ -294,19 +294,19 @@ bool Hero::isInverted() {
 }
 
 void Hero::resetFailure() {
-    Hero::state = (State) (state & ~(State::RESET_FAILURE));
+    reset(State::RESET_FAILURE);
 }
 
 void Hero::resetSuccess() {
     if (Hero::getColor()) {
         Options::swap_color = !Options::swap_color;
     }
-    Hero::state = (State) (state & ~(State::RESET_SUCCESS));
+    reset(State::RESET_SUCCESS);
     Hero::setCheckpointPos(255);
 }
 
-void Hero::resetAll() {
-    Hero::state = (State) (state & ~(State::RESET_ALL));
+void Hero::resetDefeat() {
+    reset(State::RESET_DEFEAT);
     Hero::lives = MAX_LIVES;
     Hero::setCheckpointPos(255);
 }

@@ -72,7 +72,7 @@ void Floor::load() {
     case LOAD_CHECKPOINT: {
         LOG_LN(F("LOAD_CHECKPOINT"));
         Floor::resetAll();
-        Hero::resetAll();
+        Hero::resetDefeat();
         Room::load(0);
         ExplosionAnimation::implode(Hero::getColorIdx());
         state = State::START_TIMER;
@@ -101,14 +101,14 @@ void Floor::load() {
     case LOAD_IDLE: {
         LOG_LN(F("LOAD_IDLE"));
         Floor::resetAll();
-        Hero::resetAll();
+        Hero::resetDefeat();
         Room::load(2);
         state = State::START_TIMER;
     } break;
     case LOAD_OPTIONS: {
         LOG_LN(F("LOAD_OPTIONS"));
         Floor::resetAll();
-        Hero::resetAll();
+        Hero::resetDefeat();
         Room::load(1);
         ExplosionAnimation::implode(Hero::getColorIdx());
         state = State::START_TIMER;
@@ -136,14 +136,14 @@ void Floor::load() {
 void Floor::loadOptions() {
     if (state != PLAY) return;
     LOG_LN(F("load options"));
-    ExplosionAnimation::explode(COLOR_MONSTER_0, false);
+    ExplosionAnimation::explode(COLOR_MONSTER_0, ExplosionAnimation::Type::OPTIONS);
     Floor::state = LOAD_OPTIONS;
 }
 
 void Floor::loadIdle() {
     if (state != PLAY) return;
     LOG_LN(F("load idle"));
-    ExplosionAnimation::explode(COLOR_MONSTER_0, false);
+    ExplosionAnimation::explode(COLOR_MONSTER_0, ExplosionAnimation::Type::IDLE);
     if (!Options::checkpoints) {
         Floor::idx = Options::start_floor;
     }
@@ -173,7 +173,7 @@ void Floor::loadDoor(uint8_t room) {
 void Floor::loadSuccess() {
     if (state != PLAY) return;
     LOG_LN(F("load success"));
-    ExplosionAnimation::explode(Hero::getColorIdx());
+    ExplosionAnimation::explode(Hero::getColorIdx(), ExplosionAnimation::Type::SUCCESS);
     if (!Options::isOptions()) {
         Floor::idx += 1;
     }
@@ -186,13 +186,14 @@ void Floor::loadFailure() {
     if (!Options::isOptions()) {
         Hero::looseLive();
     }
-    ExplosionAnimation::explode(COLOR_MONSTER_0);
     if (Hero::lives == 0) {
+        ExplosionAnimation::explode(COLOR_MONSTER_0, ExplosionAnimation::Type::DEFEAT);
         if (!Options::checkpoints) {
             Floor::idx = Options::start_floor;
         }
         state = LOAD_CHECKPOINT;
     } else {
+        ExplosionAnimation::explode(COLOR_MONSTER_0, ExplosionAnimation::Type::FAILURE);
         state = LOAD_FAILURE;
     }
 }

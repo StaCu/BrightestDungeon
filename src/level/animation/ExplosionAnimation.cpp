@@ -14,7 +14,7 @@
 
 #define EXPLOSION_SPEED 127
 
-uint8_t ExplosionAnimation::show_idx = 0;
+uint8_t ExplosionAnimation::type = 0;
 uint8_t ExplosionAnimation::color = 0;
 uint8_t ExplosionAnimation::state = State::OFF;
 int8_t ExplosionAnimation::substep = 0;
@@ -22,14 +22,18 @@ int16_t ExplosionAnimation::pos = 0;
 int16_t ExplosionAnimation::size = 0;
 int16_t ExplosionAnimation::maxsize = 0;
 
-void ExplosionAnimation::explode(uint8_t color, bool show_idx) {
+void ExplosionAnimation::explode(uint8_t color, uint8_t type) {
     if (ExplosionAnimation::isActive()) {        
         return;
     }
 
     ExplosionAnimation::color = color;
-    state = (show_idx && color == COLOR_MONSTER_0) ? State::LOOSE : State::EXPLODE-1;
-    ExplosionAnimation::show_idx = show_idx;
+    if (type & Type::DELAYED) {
+        state = State::LOOSE;
+    } else {
+        state = State::EXPLODE-1;
+    }
+    ExplosionAnimation::type = type;
     substep = 0;
     pos = Hero::position;
     size = 0;
@@ -93,7 +97,11 @@ void ExplosionAnimation::update() {
     }
 
     if (state == State::EXPLODE) {
-        if (pos - size < 0 && pos + size >= Options::level_length) {
+        if (type & Type::LARGE) {
+            if (size > Options::level_length * 3) {
+                state = State::OFF;
+            }
+        } else if (pos - size < 0 && pos + size >= Options::level_length) {
             state = State::OFF;
         }
     } else if (state == State::IMPLODE && size <= 0) {
@@ -148,12 +156,14 @@ void ExplosionAnimation::draw() {
     }
 
     Panel::drawLine(origin-size, 2*size, COLOR_OFF, true);
-    if (show_idx) {
-        ExplosionAnimation::drawFloorIndex(origin-(size>>2), origin+(size>>2));
+    if (type & Type::SHOW_LEVEL) {
+        uint8_t shift = type & Type::LARGE ? 4 : 2;
+        ExplosionAnimation::drawFloorIndex(origin-(size>>shift), origin+(size>>shift));
     }
     
     int16_t offset = size;
-    for (uint8_t i = 0; i < 3; i++) {
+    uint8_t count = type & Type::LARGE ? 5 : 3;
+    for (uint8_t i = 0; i < count; i++) {
         Panel::draw(origin+offset, color);
         Panel::draw(origin-offset, color);
         offset >>= 1;
